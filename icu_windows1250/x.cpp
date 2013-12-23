@@ -1,14 +1,15 @@
 #include <unicode/ucnv.h>
 #include <string>
+#include <stdexcept>
 #include <iostream>
 
 // string fix_encoding()  string   windows-1250 --> utf-8
 
+using std::string;
+using std::endl;
+using std::cout;
 
 int main() {
-        using std::string;
-        using std::endl;
-        using std::cout;
 
 // http://www.binaryhexconverter.com/decimal-to-hex-converter
 // ł 179 B3
@@ -66,14 +67,19 @@ Returns:
 		size_t len2=0;
 		if ( U_SUCCESS( err2 ) ) {
 			int32_t dest2Capacity =  (len+1) * 8*2;			// for worst case, 8 octet encoded, surrogate chars? TODO optimize
-			string dest2( dest2Capacity , 'X' ); 
+			std::string dest2( dest2Capacity , 'X' ); 
 			cout << "String is:" << dest2 << endl;
 			char* dest2_as_sz = & dest2.at(0);
 			len2 = ucnv_fromUChars(converter2, dest2_as_sz,  dest2Capacity,   dest,  -1,  &err2);	
 			ucnv_close( converter2 );
 
+
 			cout << "Converted, len2="<<len2<<endl;
-			cout << "String is: " << dest2 << endl;
+			if (!(len2 < dest2.size()+1)) throw std::runtime_error("Problem converting string (out of space when ending string)");
+			dest2 = dest2.substr(0,len2);
+
+			cout << "String=" << dest2 << endl;
+
 			for (int32_t i=0; i<len2; ++i) cout << (int)(unsigned char)dest2[i] << ", ";
 		}
 
