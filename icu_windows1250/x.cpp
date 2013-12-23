@@ -10,6 +10,10 @@ using std::endl;
 using std::cout;
 
 int main() {
+}
+
+
+int convert_windows1250_to_utf8() {
 
 // http://www.binaryhexconverter.com/decimal-to-hex-converter
 // ł 179 B3
@@ -17,7 +21,7 @@ int main() {
 // ć 230 E6
 
         //string bad = "a\b3"; // Paweł
-        string bad = "a\xC6\xE6"; // aĆć
+        string bad = "Pawe\xB3. a\xC6\xE6"; // aĆć
 				//Marmolada. a\b3\b3\b3a."; 
 
 //      Pawe� 
@@ -27,9 +31,8 @@ int main() {
 
         // std::map 
 
-        string exp= "a\305\202"; // UTF-8
+        //string exp= "Pawe\xB3. a\305\202"; // UTF-8
         cout << "bad=" << bad << endl;
-        cout << "exp=" << exp<< endl;
 
 		UConverter * converter;
 		UErrorCode err = U_ZERO_ERROR;
