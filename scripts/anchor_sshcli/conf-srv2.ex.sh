@@ -1,10 +1,12 @@
-
 # Configure here your revssh ssh server access. Copy this file first to file conf-srv1.local.sh and same for -srv2 etc.
 
-revssh_user="ssh_user_to_ssh_into"
-revssh_host="some-server-ip-or-hostname.org"
-revssh_ssh_port="22" # ssh port of revssh 
-revssh_my_port="29001" # on this port this client will listen on the remote revssh server
-revssh_delay_before=60 # delay before (re) connecting
-revssh_delay_after=100 # delay after connection (e.g. before reconnecting)
+revssh_srv_host="service1.YOURCOMPANY.com"
+revssh_srv_user="revssh_FOOBAR_2"
+revssh_srv_port="1001"
+
+revssh_my_port_remote="29012" # on this port the client will listen on the remote server
+revssh_my_port_here="1022" # this is the port of local ssh server
+
+revssh_delay_before=90 # delay before (re) connecting
+revssh_delay_after=40 # delay after connection (e.g. before reconnecting)
 
