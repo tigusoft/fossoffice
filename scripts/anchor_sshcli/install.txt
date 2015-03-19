@@ -1,0 +1,12 @@
+
+
+crontab -e
+
+1       */12    * * *   $HOME/anchor_sshcli/logrotate.sh
+0,30    *       * * *   killall -9 ssh
+@reboot $HOME/anchor_sshcli/logrotate.sh
+@reboot $HOME/anchor_sshcli/go_anchor_sshcli.sh
+
+
+
+
