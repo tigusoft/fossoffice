@@ -1,0 +1,4 @@
+conf-srv1.local.sh
+conf-srv2.local.sh
+nohup.out
+nohup.out*
