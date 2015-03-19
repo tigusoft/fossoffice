@@ -1,8 +1,12 @@
+#!/bin/bash
+
+cfgfile="conf-srv1.local.sh"
+source $cfgfile || { echo "ERROR can not load configuration from $cfgfile" ; exit 1 ; } 
 
 while true
 do
-	sleep 1
-	./sshcli_connection.sh revssh_lp1 84.10.39.162 1022 29001
-	sleep 150
+	sleep "$revssh_delay_before"
+        ./sshcli_connection.sh "$revssh_user" "$revssh_host" "$revssh_ssh_port" "$revssh_my_port"
+	sleep "$revssh_delay_after"
 done
 

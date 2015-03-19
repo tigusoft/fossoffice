@@ -12,8 +12,8 @@ port2="$4" # port on which rdv server will listen on our behalf for people who w
 tout1=40 # main timeout in seconds for network/ssh before killing
 tout2=5 # ping timeout
 tout2b=$((tout2 + 3)) # slightly longer timeout (e.g. before -9 KILL)
-tout3=15 # this is how long to wait after connecting
-ping_sleep=15 # sleep between pings
+tout3=25 # this is how long to wait after connecting e.g. before creating test tunnel
+ping_sleep=20 # sleep between pings
 
 function _log_raw() {
 	logdate=$(date) 
