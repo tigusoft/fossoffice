@@ -45,7 +45,7 @@ function _dbg1() {
 	_log_raw "[dbg1]" "$@" ; 
 }
 
-_info "Will connect to $user1 $host1 $port1 to create server there on $port2"
+_info "Will connect to $revssh_srv_user@"$revssh_srv_host"  -p $revssh_srv_port to create server there on $revssh_my_port_remote into here:$revssh_my_port_here - from cfgfile=$cfgfile"
 #set -x
 
 # main tunnel, like ssh -v revssh_lp2@84.10.39.162 -p 1001  -R localhost:29011:localhost:1022 ...
