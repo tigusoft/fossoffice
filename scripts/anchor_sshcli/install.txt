@@ -1,4 +1,5 @@
 
+=== INSTALL CRON ===
 
 crontab -e
 
@@ -8,5 +9,13 @@ crontab -e
 @reboot $HOME/anchor_sshcli/go_anchor_sshcli.sh
 
 
+=== CREATE SSH KEYS ===
+
+ssh-keygen -b 4096
+
+Connect once manually to the server, to add it to the known keys.
+Repeat for each connection method (e.g. to IP address, to domain name).
+
+Also add the key there to authorized keys and so on.
 
 
