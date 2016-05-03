@@ -1,0 +1,17 @@
+
+The code and other files here are currently:
+NOT REVIEWED!!
+
+DO NOT use this for anything important,
+unless you review the source code (and other files)
+yourself first!
+
+---
+
+THIS SOFTWARE (** INCLUDING ALL OTHER FILES HERE AS WELL **) 
+IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+
+---
+
