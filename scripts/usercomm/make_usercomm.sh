@@ -1,7 +1,7 @@
-
+# set -x
 
 alice=kernelbuild
-bob=user1
+bob=botmempo
 sysname=usercomm
 
 function mkdir_mod() {
@@ -24,8 +24,8 @@ function usercomm_make_a_to_b() {
 	mkdir_mod 700 $alice /home/$alice.pub/$sysname/to/$bob
 
 	dir="/home/$alice.pub/$sysname/to/$bob"
-	setfacl  -m  ":u::-" $dir
-	setfacl  -m  "default:u::-" $dir
+	setfacl  -m  "u::rwx" $dir  # alice will be the user of file, so she gets rights here (and also gets them below but this here is needed as it would overwrite)
+	setfacl  -m  "default:u::rwx" $dir
 
 	setfacl  -m  "u:$alice:rwX" $dir
 	setfacl  -m  "default:u:$alice:rwX" $dir
@@ -42,7 +42,10 @@ function usercomm_make_a_to_b() {
 	mkdir_mod 700 $bob /home/$bob.priv/$sysname
 	mkdir_mod 700 $bob /home/$bob.priv/$sysname/from
 
-	ln -s /home/$alice.pub/$sysname/to/$bob /home/$bob.priv/$sysname/from/$alice
+	set -x
+	# err   File: `/home/botmempo.pub/usercomm/to/kernelbuild/kernelbuild' -> `/home/botmempo.pub/usercomm/to/kernelbuild'
+	ln -s "/home/$alice.pub/$sysname/to/$bob" "/home/$bob.priv/$sysname/from/$alice"
+	set +x
 	echo "DONE"
 	echo 
 }

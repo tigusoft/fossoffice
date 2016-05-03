@@ -1,0 +1,67 @@
+
+=== INSTALL CRON ===
+
+crontab -e
+
+1       */12    * * *   $HOME/anchor_sshcli/logrotate.sh
+0,30    *       * * *   killall -9 ssh
+@reboot $HOME/anchor_sshcli/logrotate.sh
+@reboot $HOME/anchor_sshcli/go_anchor_sshcli.sh
+
+
+=== CREATE SSH KEYS ===
+
+ssh-keygen -b 4096
+
+Connect once manually to the server, to add it to the known keys.
+Repeat for each connection method (e.g. to IP address, to domain name).
+
+Also add the key there to authorized keys and so on.
+
+
+=== LOG INTO YOURSELF for TEST ===
+
+cat  ~/.ssh/id_rsa.pub   > ~/.ssh/authorized_keys
+# also as root add to sshd_config and restart
+
+ssh localhost 
+
+
+This is needed so that the user running the revssh client, e.g. user "clissh" should log into himself via the remote port he created to terst if the
+tunnel is working.
+
+=== YOU MUST CONFIGURE : the revssh server ===
+
+sshd_config on the revssh server
+
+disable Banner
+enable AllowOpen
+
+Example:
+
+...
+
+Match group revssh
+   AllowTcpForwarding yes
+   PermitTunnel no
+   X11Forwarding no
+   #GatewayPorts clientspecified
+   AllowAgentForwarding no
+   PermitOpen localhost:29001 localhost:29002 localhost:29011 localhost:29012
+   ForceCommand /usr/local/bin/shell_revssh
+...
+
+
+=== configure the client sshd ===
+Enable to ssh login into this user clissh from localhost too.
+That is needed for ping test for example
+
+
+=== configure the client user ===
+
+User clissh@clientmachine
+
+run the connections from sshcli@ user to both the revssh server and to your localhost (type as localhost@ !!) to accept the ssh key
+connect localhost -p 29011 etc from sshcli@ to accept the ssh key (it's a pain, you must first start this script) or the pings will fail/hang
+
+
