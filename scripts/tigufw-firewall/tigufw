@@ -1,0 +1,64 @@
+#!/bin/bash -e
+# fw-tigu: a simple micro firewall by TiguSoft
+# This code is (C) 2016 on the BSD (2-clause version) license - by tigusoft.pl
+# This code is not fully reviewed and might contain mistakes, please review it
+# yourself before use for important purposes. Code is provided "AS IS" with NO warranty.
+
+set -x
+
+config_fn="/etc/tigufw/config.sh"
+echo "Loading configuration ${config_fn}"
+source "${config_fn}" || { echo "Can not read configuration $config_fn" ; exit 1 ; }
+
+
+iptables -F ; iptables -X ; iptables -Z 
+for tab in nat mangle raw ; do iptables -F -t "$tab" ; iptables -X -t "$tab"; done 
+
+ip6tables -F ; iptables -X ; iptables -Z 
+for tab in nat mangle raw ; do ip6tables -F -t "$tab" ; iptables -X -t "$tab"; done 
+
+iptables -P INPUT DROP ; iptables -P FORWARD DROP ; iptables -P OUTPUT DROP
+ip6tables -P INPUT DROP ; ip6tables -P FORWARD DROP ; ip6tables -P OUTPUT DROP
+
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# hmm? needed to reply to allowed lo->lo ? TODO
+iptables  -A OUTPUT -o lo --dst 127.0.0.1 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ip6tables -A OUTPUT -o lo --dst ::1 -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+ip6tables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+ip6tables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# --- allow services here ---
+# iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+# ---
+
+# can send to localhost (so they will be allowd later)
+for user in ${user_allow_send_to_localhost[@]} # TODO config!
+do
+	iptables  -A OUTPUT -o lo -m owner --uid-owner "$user" --dst 127.0.0.1 -j ACCEPT
+	ip6tables -A OUTPUT -o lo -m owner --uid-owner "$user" --dst ::1 -j ACCEPT
+done
+# rest can not send to localhost:
+iptables -A OUTPUT --dst 127.0.0.1 -j REJECT
+ip6tables -A OUTPUT --dst ::1 -j REJECT
+
+# allow input to localhost if sent from localhost
+iptables  -A INPUT -i lo --dst 127.0.0.1 -j ACCEPT
+ip6tables -A INPUT -i lo --dst ::1       -j ACCEPT
+
+
+iptables -A INPUT -j DROP
+iptables -A FORWARD -j DROP
+
+ip6tables -A INPUT -j DROP
+ip6tables -A FORWARD -j DROP
+
+iptables -P INPUT ACCEPT ; iptables -P FORWARD DROP ; iptables -P OUTPUT ACCEPT
+ip6tables -P INPUT ACCEPT ; ip6tables -P FORWARD DROP ; ip6tables -P OUTPUT ACCEPT
+
+echo "All done"
+
+
+
