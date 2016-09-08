@@ -1,0 +1,41 @@
+
+We noticed that two similar (same short key ID) keys seem to exist for user da2ce7
+and are uploaded to key servers by someone.
+
+Saving this key here so that the rightfull owner can investinage
+(maybe it's on purpose by him, or perhaps he is super-lucky, or maybe it's just
+some attempt to impersonate him).
+
+We will update this document (meaning: our git that holds some pubkeys lists)
+when we will confirm which key is correct (or that both are).
+One of the keys is eitherway expired now.
+
+$ gpg --search-keys da2ce7@gmail.com
+gpg: searching for "da2ce7@gmail.com" from hkp server pgp.mit.edu
+(1)     Cameron Garnham <da2ce7@gmail.com>
+          2048 bit RSA key 0x6D7A6BC033B5E7D6, created: 2014-06-16, expires: 2015-07-19 (revoked) (expired)
+(2)     da2ce7 <da2ce7@jabber.org>
+        Cameron Garnham <me@da2ce7.com>
+        Cameron Garnham <da2ce7@gmail.com>
+        Cameron Garnham <cameron@btcserv.tk>
+          2048 bit DSA key 0x049F1C3033B5E7D6, created: 2011-02-05, expires: 2017-04-20
+
+
+
+$ gpg --fingerprint da2ce7@gmail.com
+pub   2048D/0x049F1C3033B5E7D6 2011-02-05 [expires: 2017-04-20]
+      Key fingerprint = D1BE 9764 E767 FC8F F0DD  8FE3 049F 1C30 33B5 E7D6
+uid                 [ unknown] Cameron Garnham <da2ce7@gmail.com>
+uid                 [ unknown] Cameron Garnham <me@da2ce7.com>
+sub   4096g/0xE2B1642E9170DB10 2016-04-20 [expires: 2017-04-20]
+      Key fingerprint = B07B 8D80 9A7A 3E2C 22EE  4F7E E2B1 642E 9170 DB10
+sub   3072D/0xDDDE53EA0000FFA9 2016-04-20 [expires: 2017-04-20]
+      Key fingerprint = 2549 1606 84D3 15E7 5CFF  5D37 DDDE 53EA 0000 FFA9
+
+pub   2048R/0x6D7A6BC033B5E7D6 2014-06-16 [revoked: 2016-08-16]
+      Key fingerprint = 2819 B64F 04EC ED85 C7FB  F7E7 6D7A 6BC0 33B5 E7D6
+uid                 [ revoked] Cameron Garnham <da2ce7@gmail.com>
+
+
+
+
